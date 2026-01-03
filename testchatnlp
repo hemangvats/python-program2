@@ -1,0 +1,34 @@
+from nltk.chat.util import Chat, reflections
+import tkinter as tk
+
+pairs = [
+    [r"hi|hello", ["Hello! How can I assist you today?"]],
+    [r"(.*) problem (.*)", ["Tell me more about the problem you’re facing."]],
+    [r"(.*) your name?", ["I’m your problem-solving assistant!"]],
+    [r"bye", ["Goodbye, take care!"]],
+]
+
+chatbot = Chat(pairs, reflections)
+
+def send_message():
+    user_input = entry.get()
+    chat_window.insert(tk.END, "You: " + user_input + "\n")
+    entry.delete(0, tk.END)
+
+    response = chatbot.respond(user_input)
+    chat_window.insert(tk.END, "Bot: " + (response if response else "I’m not sure about that.") + "\n")
+
+root = tk.Tk()
+root.title("Chatbot")
+root.geometry("400x500")
+
+chat_window = tk.Text(root, bd=1, bg="lightyellow", width=50, height=20)
+chat_window.pack(pady=10)
+
+entry = tk.Entry(root, width=40)
+entry.pack(side=tk.LEFT, padx=5)
+
+send_button = tk.Button(root, text="Send", command=send_message)
+send_button.pack(side=tk.LEFT)
+
+root.mainloop()
